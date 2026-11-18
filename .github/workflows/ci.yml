@@ -1,0 +1,40 @@
+name: Atlas CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  rust-core-engine:
+    name: Rust Core Engine (Test & Lint)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      - name: Cargo Test
+        working-directory: ./services/core-engine
+        run: cargo test --verbose
+
+  python-ai-orchestrator:
+    name: Python AI Orchestrator (LangGraph & Agents)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        working-directory: ./services/ai-orchestrator
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest pytest-asyncio
+      - name: Run Tests
+        working-directory: ./services/ai-orchestrator
+        run: pytest -v

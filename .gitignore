@@ -1,0 +1,16 @@
+# Rust
+services/core-engine/target/
+services/core-engine/**/*.rs.bk
+
+# Python
+services/ai-orchestrator/venv/
+services/ai-orchestrator/__pycache__/
+services/ai-orchestrator/*/__pycache__/
+services/ai-orchestrator/*/*/__pycache__/
+services/ai-orchestrator/.pytest_cache/
+*.pyc
+
+# Environment & Keys
+.env
+.env.local
+*.log
